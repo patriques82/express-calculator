@@ -1,13 +1,16 @@
 import 'regenerator-runtime/runtime'
 import { Builder, By } from 'selenium-webdriver'
-import { Options } from 'selenium-webdriver/firefox.js';
+import { Options as FirefoxOptions } from 'selenium-webdriver/firefox.js';
 
 describe('UI tests', () => {
-
-  const driver = new Builder()
+  let driver;
+  
+  beforeAll(() => {
+    driver = new Builder()
       .forBrowser('firefox')
-      .setFirefoxOptions(new Options().headless())
+      .setFirefoxOptions(new FirefoxOptions().headless())
       .build()
+  })
 
   it('should show number buttons', async () => {
     await driver.get("http://localhost:3000")
@@ -15,6 +18,4 @@ describe('UI tests', () => {
     const title = await elem.getText()
     expect(title).toBe("Express Calculator")
   })
-
 })
-
