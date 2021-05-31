@@ -20,5 +20,16 @@ pipeline {
         sh 'node --version'
       } 
     }
+    stage('Delivery') {
+      when {
+        branch 'main'
+      }
+      steps {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+          def image = docker.build("patriques82/express-calculator")
+          image.push()
+        }
+      }
+    }
   }
 }
