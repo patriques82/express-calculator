@@ -1,35 +1,25 @@
 pipeline {
   agent none
   stages {
-    stage('Backend') {
-      agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
-      }
+    stages('build') {
       steps {
-        echo 'Backend...'
-        sh 'mvn --version'
+        npm install
       } 
     }
-    stage('Frontend') {
-      agent {
-        dockerfile true
-      }
+    stages('unit-tests') {
       steps {
-        echo 'Frontend...'
-        sh 'svn --version'
-        sh 'node --version'
+        npm run unit-test
       } 
     }
-    stage('Delivery') {
-      when {
-        branch 'main'
-      }
+    stages('integration-tests') {
       steps {
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-          def image = docker.build("patriques82/express-calculator")
-          image.push()
-        }
-      }
+        npm run integration-test
+      } 
+    }
+    stages('e2e-tests') {
+      steps {
+        ./e2e-test.sh 
+      } 
     }
   }
 }
