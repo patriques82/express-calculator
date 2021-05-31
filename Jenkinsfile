@@ -18,7 +18,7 @@ pipeline {
     }
     stages('e2e-tests') {
       steps {
-        ./e2e-test.sh 
+        sh ./e2e-test.sh 
       } 
     }
   }
