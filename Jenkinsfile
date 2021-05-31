@@ -12,11 +12,20 @@ pipeline {
       } 
     }
     stage('integration-tests') {
+      when {
+        anyOf {
+          branch 'develop'
+          branch 'main'
+        }
+      }
       steps {
         sh 'npm run integration-test'
       } 
     }
     stage('e2e-tests') {
+      when {
+        branch 'main'
+      }
       steps {
         sh './e2e-test.sh' 
       } 
