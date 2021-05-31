@@ -1,22 +1,22 @@
 pipeline {
   agent none
   stages {
-    stages('build') {
+    stage('build') {
       steps {
         npm install
       } 
     }
-    stages('unit-tests') {
+    stage('unit-tests') {
       steps {
         npm run unit-test
       } 
     }
-    stages('integration-tests') {
+    stage('integration-tests') {
       steps {
         npm run integration-test
       } 
     }
-    stages('e2e-tests') {
+    stage('e2e-tests') {
       steps {
         sh './e2e-test.sh' 
       } 
