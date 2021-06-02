@@ -30,14 +30,16 @@ pipeline {
         sh './e2e-test.sh' 
       } 
     }
-    stage('push-image') {
+    stage('deliver-image') {
       when {
         branch 'main'
       }
       steps {
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-          def image = docker.build("patriques82/express-calculator:${env.BUILD_ID}")
-          image.push()
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            def image = docker.build("patriques82/express-calculator")
+            image.push("$BUILD_ID")
+          }
         }
       } 
     }
