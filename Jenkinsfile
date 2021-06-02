@@ -34,10 +34,12 @@ pipeline {
       when {
         branch 'main'
       }
-      docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-        def image = docker.build("patriques82/express-calculator:${env.BUILD_ID}")
-        image.push()
-      }
+      steps {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+          def image = docker.build("patriques82/express-calculator:${env.BUILD_ID}")
+          image.push()
+        }
+      } 
     }
   }
 }
