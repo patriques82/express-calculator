@@ -43,5 +43,17 @@ pipeline {
         }
       } 
     }
+    stage('deploy-to-heroku') {
+      when {
+        branch 'main'
+      }
+      environment {
+        HEROKU_API_KEY=credentials('heroku_token')
+      }
+      steps {
+        sh 'heroku container:push web --app=radiant-island-91815'
+        sh 'heroku container:release web --app=radiant-island-91815'
+      }
+    }
   }
 }
